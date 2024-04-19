@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+:root {
+  height: 100%;
+}
+
+.text-custom-color {
+  color: rgb(217, 209, 181);
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
