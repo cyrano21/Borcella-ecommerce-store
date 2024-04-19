@@ -4,23 +4,7 @@ import { auth } from "@clerk/nextjs";
 
 import { NextRequest, NextResponse } from "next/server";
 
-import NextCors from 'nextjs-cors';
-
 export const GET = async (req: NextRequest) => {
-
-
-    await NextCors(req, res, {
-    // Méthodes que vous souhaitez autoriser
-    methods: ['GET'],
-    // L'URL du client autorisé
-    origin: 'http://localhost:3001',  // Assurez-vous que cette URL correspond à l'URL de votre client
-    // Autoriser les en-têtes suivants
-    allowHeaders: ['Content-Type', 'Authorization'],
-    // Permettre les cookies et les informations d'authentification
-    credentials: true,
-    // Success Status pour les requêtes OPTIONS
-    optionsSuccessStatus: 200
-  });
   try {
     const { userId } = auth()
 
