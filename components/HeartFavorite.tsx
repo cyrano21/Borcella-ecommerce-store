@@ -1,9 +1,9 @@
 "use client"
 
-import { useUser } from "@clerk/nextjs";
-import { Heart } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import {useUser} from "@clerk/nextjs";
+import {Heart} from "lucide-react";
+import {useRouter} from "next/navigation";
+import {useEffect, useState} from "react";
 
 interface HeartFavoriteProps {
   product: ProductType;
@@ -21,13 +21,30 @@ const HeartFavorite = ({ product, updateSignedInUser }: HeartFavoriteProps) => {
     try {
       setLoading(true);
       const res = await fetch("/api/users");
+
+      // Check if the HTTP status code indicates success before proceeding
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`); // You can customize the error message or handle different statuses differently
+      }
+
       const data = await res.json();
-      setIsLiked(data.wishlist.includes(product._id));
+
+      // Ensure the product and its _id are defined before trying to access the wishlist
+      if (product && 'wishlist' in data) {
+        setIsLiked(data.wishlist.includes(product._id));
+      } else {
+        console.log("Product data is missing or invalid.");
+        // Handle missing data as necessary, possibly setting defaults or error states
+      }
+
       setLoading(false);
     } catch (err) {
-      console.log("[users_GET]", err);
+      console.error("[users_GET]", err);
+      setLoading(false);
+      // Optionally set an error state here to give feedback to the user
     }
   };
+
 
   useEffect(() => {
     if (user) {

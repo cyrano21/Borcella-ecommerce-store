@@ -8,6 +8,15 @@ body,
   height: 100%;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Pour éviter tout débordement horizontal */
+}
+
+
 .text-custom-color {
   color: rgb(217, 209, 181);
 }

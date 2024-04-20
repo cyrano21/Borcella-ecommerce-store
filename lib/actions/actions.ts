@@ -4,8 +4,21 @@ export const getCollections = async () => {
 }
 
 export const getCollectionDetails = async (collectionId: string) => {
-  const collection = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/collections/${collectionId}`)
-  return await collection.json()
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/collections/${collectionId}`)
+    const data = await response.text(); // Temporairement obtenir la réponse en tant que texte
+
+    // Tentative de parser le JSON seulement si la réponse est OK
+    if (response.ok) {
+      return JSON.parse(data);
+    } else {
+      console.error("Failed to fetch collection details:", data);
+      return null; // ou gérer selon le besoin
+    }
+  } catch (error) {
+    console.error("Error fetching collection details:", error);
+    return null; // ou gérer selon le besoin
+  }
 }
 
 export const getProducts = async () => {
@@ -14,9 +27,15 @@ export const getProducts = async () => {
 }
 
 export const getProductDetails = async (productId: string) => {
-  const product = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`)
-  return await product.json()
-}
+  try {
+    const product = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`);
+    return await product.json();
+  } catch (error) {
+    console.error('Failed to fetch product details:', error);
+    // Handle error appropriately, maybe return a default value or error object
+    return null;
+  }
+};
 
 export const getSearchedProducts = async (query: string) => {
   const searchedProducts = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/search/${query}`)

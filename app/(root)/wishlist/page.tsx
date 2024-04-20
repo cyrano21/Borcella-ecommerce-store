@@ -1,5 +1,6 @@
 "use client";
 
+
 import Loader from "@/components/Loader";
 import ProductCard from "@/components/ProductCard";
 import {getProductDetails} from "@/lib/actions/actions";
@@ -16,11 +17,13 @@ const Wishlist = () => {
   const getUser = async () => {
     try {
       const res = await fetch("/api/users");
+      if (!res.ok) throw new Error('Failed to fetch user');
       const data = await res.json();
       setSignedInUser(data);
-      setLoading(false);
     } catch (err) {
-      console.log("[users_GET", err);
+      console.error("[users_GET]", err);
+    } finally {
+      setLoading(false);  // Ensure loading is set to false in all cases
     }
   };
 
@@ -31,18 +34,23 @@ const Wishlist = () => {
   }, [user]);
 
   const getWishlistProducts = async () => {
-    setLoading(true);
-
-    if (!signedInUser) return;
+    if (!signedInUser?.wishlist) return;
 
     const wishlistProducts = await Promise.all(
-      signedInUser.wishlist.map(async (productId) => {
-        const res = await getProductDetails(productId);
-        return res;
-      })
+        signedInUser.wishlist.map(async (productId) => {
+          try {
+            const res = await getProductDetails(productId);
+            if (!res.ok) throw new Error(`Failed to fetch product ${productId}`);
+            return await res.json();
+          } catch (error) {
+            console.error('Error fetching product details', error);
+            return null;  // Return null to filter out later
+          }
+        })
     );
 
-    setWishlist(wishlistProducts);
+    const validProducts = wishlistProducts.filter(Boolean);  // Filter out null values
+    setWishlist(validProducts);
     setLoading(false);
   };
 
@@ -52,30 +60,26 @@ const Wishlist = () => {
     }
   }, [signedInUser]);
 
-  const updateSignedInUser = (updatedUser: UserType) => {
-    setSignedInUser(updatedUser);
-  };
-
   return loading ? (
-    <Loader />
+      <Loader />
   ) : (
-    <div className="px-10 py-5">
-      <p className="text-heading3-bold my-10">Vos favories</p>
-      {wishlist.length === 0 && <p>Aucun article dans votre liste de souhaits</p>}
-
-      <div className="flex flex-wrap justify-center gap-16">
-        {wishlist.map((product) => (
-          <ProductCard
-            key={product._id}
-            product={product}
-            updateSignedInUser={updateSignedInUser}
-          />
-        ))}
+      <div className="px-10 py-5">
+        <p className="text-heading3-bold my-10">Vos favoris</p>
+        {wishlist.length === 0 ? (
+            <p>Aucun article dans votre liste de souhaits</p>
+        ) : (
+            <div className="flex flex-wrap justify-center gap-16">
+              {wishlist.map((product) => (
+                  <ProductCard
+                      key={product._id}
+                      product={product}
+                  />
+              ))}
+            </div>
+        )}
       </div>
-    </div>
   );
 };
 
-export const dynamic = "force-dynamic";
-
 export default Wishlist;
+
