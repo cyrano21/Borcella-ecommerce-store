@@ -1,30 +1,30 @@
 import User from "@/lib/models/User";
 import {connectToDB} from "@/lib/mongoDB";
-import {auth} from "@clerk/nextjs";
 
-import {NextApiRequest, NextApiResponse} from "next";
+import {NextRequest, NextResponse} from "next/server";
+import {auth} from "@clerk/nextjs"; // Assurez-vous d'utiliser NextRequest pour les Edge Functions ou middleware
 
-export const GET = async (_: NextApiRequest, res: NextApiResponse) => {
+// Utilisation de l'authentification Clerk (s'assurer que la méthode est utilisée correctement selon la doc)
+export const GET = async (_: NextRequest) => {  // Remplacer 'req' par '_' pour indiquer qu'il n'est pas utilisé
   try {
-    const { userId } = auth()
+    await connectToDB();
+
+    const { userId } = auth(); // Utilisez la méthode d'authentification appropriée
 
     if (!userId) {
-      return res.status(401).json({ message: "Non autorisé" });
+      return new NextResponse(JSON.stringify({ message: "Non autorisé" }), { status: 401 });
     }
-
-    await connectToDB()
 
     let user = await User.findOne({ clerkId: userId });
 
-    // When the user sign-in for the 1st time, immediately create a new user for them
     if (!user) {
       user = await User.create({ clerkId: userId });
       await user.save();
     }
 
-    return res.status(200).json(user);
+    return new NextResponse(JSON.stringify(user), { status: 200 });
   } catch (err) {
     console.log("[users_GET]", err);
-    return res.status(500).send("Internal Server Error");
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
