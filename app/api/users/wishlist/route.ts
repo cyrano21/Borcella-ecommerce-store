@@ -4,7 +4,7 @@ import {auth} from "@clerk/nextjs";
 
 import {NextApiRequest, NextApiResponse} from "next";
 
-export const GET = async (req: NextApiRequest, res: NextApiResponse) => {
+export const GET = async (_: NextApiRequest, res: NextApiResponse) => {
   try {
     const { userId } = auth()
 
