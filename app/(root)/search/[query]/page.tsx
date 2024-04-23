@@ -1,5 +1,6 @@
 import ProductCard from "@/components/ProductCard";
 import { getSearchedProducts } from "@/lib/actions/actions";
+import { ProductType } from "@/lib/types";
 
 const SearchPage = async ({ params }: { params: { query: string } }) => {
   const searchedProducts = await getSearchedProducts(params.query);
@@ -15,7 +16,7 @@ const SearchPage = async ({ params }: { params: { query: string } }) => {
         ))}
       <div className="flex flex-wrap justify-between gap-16">
         {searchedProducts?.map((product: ProductType, index: number) => (
-          <ProductCard key={product._id} product={product} index={index} />
+          <ProductCard key={product._id} product={product} />
         ))}
       </div>
     </div>
