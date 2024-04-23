@@ -43,3 +43,17 @@ html, body {
   opacity: 1;
   transform: translateX(0);
 }
+
+
+.text-custom-color {
+  color: rgb(217, 209, 181);
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.bg-nav-color {
+  background-color: rgb(229,185,99);
+}
+
+

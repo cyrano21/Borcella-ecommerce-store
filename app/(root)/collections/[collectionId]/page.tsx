@@ -1,15 +1,11 @@
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
 import { generateColor, getContrastColor } from "@/utils/colorGenerator";
 import ProductCard from "@/components/ProductCard";
 import { getCollectionDetails } from "@/lib/actions/actions";
-import { ProductType } from "@/lib/types"; // Importez les fonctions ici
+import { ProductType } from "@/lib/types";
 
-const CollectionDetails = async ({
-  params,
-}: {
-  params: { collectionId: string };
-}) => {
+const CollectionDetails = async ({ params }) => {
   const collectionDetails = await getCollectionDetails(params.collectionId);
 
   if (!collectionDetails) {
@@ -24,9 +20,20 @@ const CollectionDetails = async ({
   const backgroundColor = generateColor(params.collectionId);
   const textColor = getContrastColor(backgroundColor);
 
-  // @ts-ignore
   return (
-    <div className="px-10 py-5 flex flex-col items-center gap-8">
+    <div
+      style={{
+        backgroundColor,
+        color: textColor,
+        minHeight: "100vh",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: "'Montserrat', sans-serif",
+        textShadow: "1px 1px 2px rgba(0, 0, 0, 0.1)",
+      }}
+      className="flex flex-col items-center gap-8 p-10"
+    >
       <Image
         src={collectionDetails.image}
         width={1500}
@@ -34,10 +41,8 @@ const CollectionDetails = async ({
         alt="collection"
         className="w-full h-[400px] object-cover rounded-xl"
       />
-      <p className="text-heading3-bold text-grey-2">
-        {collectionDetails.title}
-      </p>
-      <p className="text-body-normal text-grey-2 text-center max-w-[900px]">
+      <p className="text-heading3-bold">{collectionDetails.title}</p>
+      <p className="text-body-normal text-center max-w-[900px]">
         {collectionDetails.description}
       </p>
       <div className="flex flex-wrap gap-16 justify-center">
@@ -53,5 +58,3 @@ const CollectionDetails = async ({
 };
 
 export default CollectionDetails;
-
-export const dynamic = "force-dynamic";

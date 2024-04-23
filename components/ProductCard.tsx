@@ -4,10 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import HeartFavorite from "./HeartFavorite";
 import { ProductType, UserType } from "@/lib/types";
+import React from "react";
 
 interface ProductCardProps {
   product: ProductType;
   updateSignedInUser?: (updatedUser: UserType) => void;
+  style?: React.CSSProperties;
 }
 
 // @ts-ignore
