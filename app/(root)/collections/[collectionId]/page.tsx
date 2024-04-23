@@ -6,13 +6,18 @@ import React from "react";
 import { generateColor, getContrastColor } from "@/utils/colorGenerator";
 import ProductCard from "@/components/ProductCard";
 import { getCollectionDetails } from "@/lib/actions/actions"; // Importez les fonctions ici
+import { CollectionType, ProductType } from "@/lib/types";
 
-interface CollectionDetailsProps {
+const CollectionDetails = async ({
+  params,
+  index,
+}: {
+  params: { collectionId: string };
   index: number;
-}
-
-const CollectionDetails = async ({ params, index }) => {
-  const collectionDetails = await getCollectionDetails(params.collectionId);
+}) => {
+  const collectionDetails: CollectionType | null = await getCollectionDetails(
+    params.collectionId,
+  );
   if (!collectionDetails) {
     return (
       <div>
@@ -50,16 +55,13 @@ const CollectionDetails = async ({ params, index }) => {
       <p
         className="text-body-normal text-center max-w-[900px]"
         style={{ color: textColor }}
-      >
-        {collectionDetails.description}
-      </p>
+      ></p>
       <div className="flex flex-wrap gap-16 justify-center">
-        {collectionDetails.products.map((product) => (
+        {collectionDetails.products.map((product: ProductType) => (
           <ProductCard
             key={product._id}
-            product={product}
+            product={{ ...product, title: product.title || "No title" }}
             style={{ color: textColor }}
-            index={index}
           />
         ))}
       </div>

@@ -15,6 +15,7 @@ const Home = () => {
         layout="responsive"
         className="w-screen"
       />
+
       <Collections />
       <ProductList />
     </>

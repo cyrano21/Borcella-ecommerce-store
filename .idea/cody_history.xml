@@ -33,6 +33,7 @@
             </llm>
           </llm>
         </chat>
+<<<<<<< HEAD
         <chat>
           <internalId value="2b67f090-4653-4831-b0a5-0fca796979d6" />
           <llm>
@@ -53,6 +54,8 @@
             </llm>
           </llm>
         </chat>
+=======
+>>>>>>> 026f14114aa9815d68edc89b0cbf397a165b8950
       </list>
     </chats>
     <defaultLlm>

@@ -21,6 +21,7 @@ const HeartFavorite = ({ product, updateSignedInUser }: HeartFavoriteProps) => {
     try {
       setLoading(true);
       const res = await fetch("/api/users");
+
       const data = await res.json();
       setIsLiked(data.wishlist.includes(product._id));
       setLoading(false);

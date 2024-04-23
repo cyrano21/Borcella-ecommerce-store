@@ -1,11 +1,11 @@
-type CollectionType = {
+export type CollectionType = {
   _id: string;
   title: string;
   products: number;
   image: string;
 };
 
-type ProductType = {
+export type ProductType = {
   _id: string;
   title: string;
   description: string;
@@ -21,26 +21,26 @@ type ProductType = {
   updatedAt: string;
 };
 
-type UserType = {
+export type UserType = {
   clerkId: string;
   wishlist: [string];
   createdAt: string;
   updatedAt: string;
 };
 
-type OrderType = {
+export type OrderType = {
   shippingAddress: Object;
   _id: string;
   customerClerkId: string;
-  products: [OrderItemType]
+  products: [OrderItemType];
   shippingRate: string;
-  totalAmount: number
-}
+  totalAmount: number;
+};
 
-type OrderItemType = {
+export type OrderItemType = {
   product: ProductType;
   color: string;
   size: string;
   quantity: number;
   _id: string;
-}
+};
