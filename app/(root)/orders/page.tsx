@@ -1,14 +1,12 @@
 import { getOrders } from "@/lib/actions/actions";
 
-// @ts-ignore
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
+import { OrderItemType, OrderType } from "@/lib/types";
 
 const Orders = async () => {
   const { userId } = auth();
   const orders = await getOrders(userId as string);
-
-  console.log(orders[0].products);
 
   return (
     <div className="px-10 py-5 max-sm:px-3">
@@ -38,23 +36,38 @@ const Orders = async () => {
                   />
                   <div className="flex flex-col justify-between">
                     <p className="text-small-medium">
-                      Titre: {orderItem.product.title}
+                      Titre:{" "}
+                      <span className="text-small-bold">
+                        {orderItem.product.title}
+                      </span>
                     </p>
                     {orderItem.color && (
                       <p className="text-small-medium">
-                        Couleur: {orderItem.color}
+                        Couleur:{" "}
+                        <span className="text-small-bold">
+                          {orderItem.color}
+                        </span>
                       </p>
                     )}
                     {orderItem.size && (
                       <p className="text-small-medium">
-                        Taille: {orderItem.size}
+                        Taille:{" "}
+                        <span className="text-small-bold">
+                          {orderItem.size}
+                        </span>
                       </p>
                     )}
                     <p className="text-small-medium">
-                      Prix unitaire: {orderItem.product.price}
+                      Prix unitaire:{" "}
+                      <span className="text-small-bold">
+                        {orderItem.product.price}
+                      </span>
                     </p>
                     <p className="text-small-medium">
-                      Quantité: {orderItem.quantity}
+                      Quantité:{" "}
+                      <span className="text-small-bold">
+                        {orderItem.quantity}
+                      </span>
                     </p>
                   </div>
                 </div>

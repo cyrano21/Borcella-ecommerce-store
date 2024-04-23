@@ -1,23 +1,17 @@
-// pages/collection/[collectionId].js
-
 import Image from "next/image";
 import React from "react";
-
 import { generateColor, getContrastColor } from "@/utils/colorGenerator";
 import ProductCard from "@/components/ProductCard";
-import { getCollectionDetails } from "@/lib/actions/actions"; // Importez les fonctions ici
-import { CollectionType, ProductType } from "@/lib/types";
+import { getCollectionDetails } from "@/lib/actions/actions";
+import { ProductType } from "@/lib/types"; // Importez les fonctions ici
 
 const CollectionDetails = async ({
   params,
-  index,
 }: {
   params: { collectionId: string };
-  index: number;
 }) => {
-  const collectionDetails: CollectionType | null = await getCollectionDetails(
-    params.collectionId,
-  );
+  const collectionDetails = await getCollectionDetails(params.collectionId);
+
   if (!collectionDetails) {
     return (
       <div>
@@ -30,18 +24,9 @@ const CollectionDetails = async ({
   const backgroundColor = generateColor(params.collectionId);
   const textColor = getContrastColor(backgroundColor);
 
+  // @ts-ignore
   return (
-    <div
-      style={{
-        backgroundColor,
-        color: textColor,
-        minHeight: "100vh",
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-      }}
-      className="flex flex-col items-center gap-8 p-10"
-    >
+    <div className="px-10 py-5 flex flex-col items-center gap-8">
       <Image
         src={collectionDetails.image}
         width={1500}
@@ -49,13 +34,12 @@ const CollectionDetails = async ({
         alt="collection"
         className="w-full h-[400px] object-cover rounded-xl"
       />
-      <p className="text-heading3-bold" style={{ color: textColor }}>
+      <p className="text-heading3-bold text-grey-2">
         {collectionDetails.title}
       </p>
-      <p
-        className="text-body-normal text-center max-w-[900px]"
-        style={{ color: textColor }}
-      ></p>
+      <p className="text-body-normal text-grey-2 text-center max-w-[900px]">
+        {collectionDetails.description}
+      </p>
       <div className="flex flex-wrap gap-16 justify-center">
         {collectionDetails.products.map((product: ProductType) => (
           <ProductCard

@@ -4,6 +4,7 @@ import { useUser } from "@clerk/nextjs";
 import { Heart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { ProductType, UserType } from "@/lib/types";
 
 interface HeartFavoriteProps {
   product: ProductType;
