@@ -2,6 +2,7 @@ import Gallery from "@/components/Gallery";
 import ProductCard from "@/components/ProductCard";
 import ProductInfo from "@/components/ProductInfo";
 import { getProductDetails, getRelatedProducts } from "@/lib/actions/actions";
+import { ProductType } from "@/lib/types";
 
 const ProductDetails = async ({
   params,
@@ -22,9 +23,10 @@ const ProductDetails = async ({
         <p className="text-heading3-bold">Produits similaires</p>
         <div className="flex flex-wrap gap-16 mx-auto mt-8">
           {relatedProducts?.map((product: ProductType, index: number) => (
-            <ProductCard key={product._id} product={product} index={index} />
+            <ProductCard key={product._id} product={product} />
           ))}
-        </div>
+        </div>{" "}
+        s
       </div>
     </div>
   );
