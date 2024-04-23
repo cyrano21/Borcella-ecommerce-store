@@ -5,6 +5,7 @@ import ProductCard from "@/components/ProductCard";
 import { getProductDetails } from "@/lib/actions/actions";
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
+import { ProductType, UserType } from "@/lib/types";
 
 const Wishlist = () => {
   const { user } = useUser();
@@ -76,12 +77,11 @@ const Wishlist = () => {
       {wishlist.length === 0 && <p>No items in your wishlist</p>}
 
       <div className="flex flex-wrap justify-center gap-16">
-        {wishlist.map((product, index) => (
+        {wishlist.map((product) => (
           <ProductCard
             key={product._id}
             product={product}
             updateSignedInUser={updateSignedInUser}
-            index={index}
           />
         ))}
       </div>

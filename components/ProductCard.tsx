@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import HeartFavorite from "./HeartFavorite";
+import { ProductType, UserType } from "@/lib/types";
 
 interface ProductCardProps {
   product: ProductType;
