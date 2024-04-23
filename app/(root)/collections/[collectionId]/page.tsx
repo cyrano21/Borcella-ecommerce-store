@@ -45,7 +45,6 @@ const CollectionDetails = async ({
           <ProductCard
             key={product._id}
             product={{ ...product, title: product.title || "No title" }}
-            style={{ color: textColor }}
           />
         ))}
       </div>

@@ -70,30 +70,17 @@ const ProductInfo = ({ productInfo }: { productInfo: ProductType }) => {
         <div className="flex flex-col gap-2">
           <p className="text-base-medium text-grey-2">Taille:</p>
           <div className="flex gap-2">
-            {productInfo.sizes.map(
-              (
-                size:
-                  | number
-                  | boolean
-                  | SetStateAction<string>
-                  | ReactElement<any, string | JSXElementConstructor<any>>
-                  | Iterable<ReactNode>
-                  | PromiseLikeOfReactNode
-                  | null
-                  | undefined,
-                index: Key | null | undefined,
-              ) => (
-                <p
-                  key={index}
-                  className={`border border-white px-2 py-1 rounded-lg cursor-pointer  ${
-                    selectedSize === size && "bg-white text-black"
-                  }`}
-                  onClick={() => setSelectedSize(size)}
-                >
-                  {size}
-                </p>
-              ),
-            )}
+            {productInfo.sizes.map((size: string, index: number) => (
+              <p
+                key={index}
+                className={`border border-white px-2 py-1 rounded-lg cursor-pointer  ${
+                  selectedSize === size && "bg-white text-black"
+                }`}
+                onClick={() => setSelectedSize(size)}
+              >
+                {size}
+              </p>
+            ))}
           </div>
         </div>
       )}
