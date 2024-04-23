@@ -5,7 +5,12 @@ import ProductCard from "@/components/ProductCard";
 import { getCollectionDetails } from "@/lib/actions/actions";
 import { ProductType } from "@/lib/types";
 
-const CollectionDetails = async ({ params }) => {
+type Params = {
+  collectionId: string;
+};
+
+// @ts-ignore
+const CollectionDetails = async ({ params }: { params: Params }) => {
   const collectionDetails = await getCollectionDetails(params.collectionId);
 
   if (!collectionDetails) {
