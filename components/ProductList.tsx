@@ -1,5 +1,6 @@
 import { getProducts } from "@/lib/actions/actions";
 import ProductCard from "./ProductCard";
+import { ProductType } from "@/lib/types";
 
 const ProductList = async () => {
   const products = await getProducts();
@@ -16,7 +17,7 @@ const ProductList = async () => {
               key={product._id}
               className="transition-transform duration-300 ease-in-out hover:scale-110"
             >
-              <ProductCard product={product} index={index} />
+              <ProductCard product={product} />
             </div>
           ))}
         </div>
