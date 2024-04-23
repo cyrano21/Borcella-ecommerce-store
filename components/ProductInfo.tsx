@@ -1,10 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import {
+  JSXElementConstructor,
+  Key,
+  PromiseLikeOfReactNode,
+  ReactElement,
+  ReactNode,
+  SetStateAction,
+  useState,
+} from "react";
 import HeartFavorite from "./HeartFavorite";
 import { MinusCircle, PlusCircle } from "lucide-react";
 
 import useCart from "@/lib/hooks/useCart";
+import { ProductType } from "@/lib/types";
 
 const ProductInfo = ({ productInfo }: { productInfo: ProductType }) => {
   const [selectedColor, setSelectedColor] = useState<string>(
@@ -17,6 +26,8 @@ const ProductInfo = ({ productInfo }: { productInfo: ProductType }) => {
 
   const cart = useCart();
 
+  // @ts-ignore
+  // @ts-ignore
   return (
     <div className="max-w-[400px] flex flex-col gap-4 color-border">
       <div className="flex justify-between items-center">
@@ -43,8 +54,8 @@ const ProductInfo = ({ productInfo }: { productInfo: ProductType }) => {
             {productInfo.colors.map((color, index) => (
               <p
                 key={index}
-                className={`border border-black px-2 py-1 rounded-lg cursor-pointer ${
-                  selectedColor === color && "bg-black text-white"
+                className={`border border-white px-2 py-1 rounded-lg cursor-pointer flex flex-col text-center justify-center ${
+                  selectedColor === color && "bg-white text-black"
                 }`}
                 onClick={() => setSelectedColor(color)}
               >
@@ -59,17 +70,30 @@ const ProductInfo = ({ productInfo }: { productInfo: ProductType }) => {
         <div className="flex flex-col gap-2">
           <p className="text-base-medium text-grey-2">Taille:</p>
           <div className="flex gap-2">
-            {productInfo.sizes.map((size, index) => (
-              <p
-                key={index}
-                className={`border border-black px-2 py-1 rounded-lg cursor-pointer ${
-                  selectedSize === size && "bg-black text-white"
-                }`}
-                onClick={() => setSelectedSize(size)}
-              >
-                {size}
-              </p>
-            ))}
+            {productInfo.sizes.map(
+              (
+                size:
+                  | number
+                  | boolean
+                  | SetStateAction<string>
+                  | ReactElement<any, string | JSXElementConstructor<any>>
+                  | Iterable<ReactNode>
+                  | PromiseLikeOfReactNode
+                  | null
+                  | undefined,
+                index: Key | null | undefined,
+              ) => (
+                <p
+                  key={index}
+                  className={`border border-white px-2 py-1 rounded-lg cursor-pointer  ${
+                    selectedSize === size && "bg-white text-black"
+                  }`}
+                  onClick={() => setSelectedSize(size)}
+                >
+                  {size}
+                </p>
+              ),
+            )}
           </div>
         </div>
       )}
